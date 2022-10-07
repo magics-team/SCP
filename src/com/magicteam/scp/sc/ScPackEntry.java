@@ -11,7 +11,7 @@ public class ScPackEntry {
         stream.readShort();
         stream.readShort();
 
-        this.fileSize = stream.readLong();
+        stream.readLong();
         this.fileOffset = stream.readLong();
         this.fileSize = stream.readLong();
         this.hash = stream.read(32);

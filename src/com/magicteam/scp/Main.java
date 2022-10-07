@@ -16,7 +16,7 @@ public class Main {
                     continue;
                 }
 
-                ScPackFile.unpack("./resources/packs/" + file);
+                ScPackFile.unpack(path);
             }
             return;
         }

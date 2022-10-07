@@ -1,0 +1,6 @@
+/out/
+/resources/
+/.idea/
+*.properties
+*.iml
+*.pem

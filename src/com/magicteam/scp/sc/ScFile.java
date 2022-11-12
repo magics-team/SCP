@@ -18,13 +18,16 @@ public abstract class ScFile {
         this.path = path;
     }
 
-    public void checkValidity() throws ScFileInvalidException {
+    private void checkValidity() throws ScFileInvalidException {
         if (!this.scFileHeader.isValid()) throw new ScFileInvalidException("The file is not supported!");
     }
 
-    public void readHeader() {
+    private void readHeader() {
         this.scFileHeader.read(this.stream);
     }
 
-    public abstract void unpack() throws ScFileInvalidException, IOException;
+    public void unpack() throws ScFileInvalidException, IOException {
+        this.readHeader();
+        this.checkValidity();
+    }
 }

@@ -23,19 +23,10 @@ public class ScPackFile extends ScFile {
 
     @Override
     public void unpack() throws IOException, ScFileInvalidException {
-        this.readHeader();
-
-        this.checkValidity();
+        super.unpack();
 
         this.readEntries();
         this.saveEntries();
-    }
-
-    private ScPackEntry readEntry() {
-        ScPackEntry scPackEntry = new ScPackEntry();
-        scPackEntry.read(this.stream);
-
-        return scPackEntry;
     }
 
     private void readEntries() {
@@ -44,7 +35,10 @@ public class ScPackFile extends ScFile {
         this.stream.setOffset(scPackHeader.getEntriesOffset());
 
         for (int i = 0; i < scPackHeader.getEntriesCount(); i++) {
-            this.entries.add(this.readEntry());
+            ScPackEntry scPackEntry = new ScPackEntry();
+            scPackEntry.read(this.stream);
+
+            this.entries.add(scPackEntry);
         }
     }
 

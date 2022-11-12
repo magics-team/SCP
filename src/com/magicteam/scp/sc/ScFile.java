@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public abstract class ScFile {
+public class ScFile {
     protected ByteStream stream;
     protected String path;
     protected ScFileHeader scFileHeader;

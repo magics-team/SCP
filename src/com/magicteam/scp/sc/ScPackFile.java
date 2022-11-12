@@ -18,7 +18,6 @@ public class ScPackFile extends ScFile {
 
         this.entries = new ArrayList<>();
         this.scFileHeader = new ScPackHeader();
-        this.path = path;
     }
 
     @Override

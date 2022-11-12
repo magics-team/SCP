@@ -1,14 +1,16 @@
-package com.magicteam.scp.sc;
+package com.magicteam.scp.sc.headers;
 
 import com.magicteam.scp.streams.ByteStream;
 
-public class ScPackHeader {
+public class ScPackHeader extends ScFileHeader {
     private byte[] hash;
-    private int version, entriesCount, entriesOffset, magicNumbers;
+    private int version, entriesCount, entriesOffset;
     private boolean isEncryptedPack;
 
+    @Override
     public void read(ByteStream stream) {
-        this.magicNumbers = stream.readInt();
+        super.read(stream);
+
         this.version = stream.readInt();
         stream.readInt();
         this.entriesCount = stream.readInt();
@@ -18,24 +20,15 @@ public class ScPackHeader {
         this.isEncryptedPack = stream.readBoolean();
     }
 
-    public int getMagicNumbers() {
-        return magicNumbers;
-    }
-
-    public int getVersion() {
-        return version;
+    @Override
+    public boolean isValid() {
+        if (this.isEncryptedPack) return false;
+        if (this.version != 1) return false;
+        return this.magicNumbers == 558908243;
     }
 
     public int getEntriesCount() {
         return entriesCount;
-    }
-
-    public boolean isEncryptedPack() {
-        return isEncryptedPack;
-    }
-
-    public byte[] getHash() {
-        return hash;
     }
 
     public int getEntriesOffset() {

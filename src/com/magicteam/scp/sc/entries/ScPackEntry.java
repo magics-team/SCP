@@ -1,4 +1,4 @@
-package com.magicteam.scp.sc;
+package com.magicteam.scp.sc.entries;
 
 import com.magicteam.scp.streams.ByteStream;
 
@@ -20,10 +20,6 @@ public class ScPackEntry {
 
     public String getFileName() {
         return fileName;
-    }
-
-    public byte[] getHash() {
-        return hash;
     }
 
     public long getFileSize() {

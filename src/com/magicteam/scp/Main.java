@@ -1,13 +1,13 @@
 package com.magicteam.scp;
 
-import com.magicteam.scp.exceptions.ScFileInvalidException;
-import com.magicteam.scp.sc.ScPackFile;
+import com.magicteam.scp.exceptions.ScFilePackInvalidException;
+import com.magicteam.scp.sc.scp.ScPackFile;
 
 import java.io.File;
 import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) throws IOException, ScFileInvalidException {
+    public static void main(String[] args) throws IOException, ScFilePackInvalidException {
         if (args.length >= 1) {
             for (String file : args) {
                 String path = "./resources/packs/" + file;

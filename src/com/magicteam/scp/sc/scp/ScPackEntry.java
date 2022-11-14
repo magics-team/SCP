@@ -1,4 +1,4 @@
-package com.magicteam.scp.sc.entries;
+package com.magicteam.scp.sc.scp;
 
 import com.magicteam.scp.streams.ByteStream;
 

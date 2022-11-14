@@ -1,8 +1,7 @@
-package com.magicteam.scp.sc;
+package com.magicteam.scp.sc.scp;
 
-import com.magicteam.scp.exceptions.ScFileInvalidException;
-import com.magicteam.scp.sc.entries.ScPackEntry;
-import com.magicteam.scp.sc.headers.ScPackHeader;
+import com.magicteam.scp.exceptions.ScFilePackInvalidException;
+import com.magicteam.scp.sc.ScFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -12,28 +11,33 @@ import java.util.List;
 
 public class ScPackFile extends ScFile {
     private final List<ScPackEntry> entries;
+    private final ScPackHeader scPackHeader;
 
     public ScPackFile(String path) throws IOException {
         super(path);
 
         this.entries = new ArrayList<>();
-        this.scFileHeader = new ScPackHeader();
+        this.scPackHeader = new ScPackHeader();
     }
 
-    @Override
-    public void unpack() throws IOException, ScFileInvalidException {
-        super.unpack();
+    public void unpack() throws IOException, ScFilePackInvalidException {
+        this.scPackHeader.read(this.stream);
+        this.checkValidity();
 
         this.readEntries();
         this.saveEntries();
     }
 
+    private void checkValidity() throws ScFilePackInvalidException {
+        if (this.scPackHeader.isEncryptedPack()) throw new ScFilePackInvalidException("Encrypted packs not supported.");
+        if (this.scPackHeader.getVersion() != 1) throw new ScFilePackInvalidException(String.format("Version %s not supported.", scPackHeader.getVersion()));
+        if (this.scPackHeader.getMagicNumbers() != 558908243) throw new ScFilePackInvalidException("Invalid magic numbers.");
+    }
+
     private void readEntries() {
-        ScPackHeader scPackHeader = (ScPackHeader) this.scFileHeader;
+        this.stream.setOffset(this.scPackHeader.getEntriesOffset());
 
-        this.stream.setOffset(scPackHeader.getEntriesOffset());
-
-        for (int i = 0; i < scPackHeader.getEntriesCount(); i++) {
+        for (int i = 0; i < this.scPackHeader.getEntriesCount(); i++) {
             ScPackEntry scPackEntry = new ScPackEntry();
             scPackEntry.read(this.stream);
 
